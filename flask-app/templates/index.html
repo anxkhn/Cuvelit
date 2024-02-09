@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/static/css/main.css" />
+    <title>Cuvelit</title>
+  </head>
+  <body>
+    <div>
+      {% for job in data %}
+      <div
+        class="rounded-lg border bg-card text-card-foreground shadow-sm w-full max-w-4xl"
+        data-v0-t="card"
+      >
+        <div class="space-y-1.5 flex flex-row p-6">
+          <div class="grid gap-1.5">
+            <div class="space-y-1.5 flex flex-row p-6">
+              <div class="grid gap-1.5 flex items-center">
+                <img
+                  alt="Company Logo"
+                  height="40"
+                  src="{{ job['imageUrl'] }}"
+                  width="40"
+                />
+              </div>
+              <div class="grid gap-1.5 flex items-center ml-3">
+                <h3
+                  class="text-2xl font-semibold whitespace-nowrap leading-none tracking-tight"
+                >
+                  {{ job['title'] }}
+                </h3>
+              </div>
+            </div>
+            <p class="text-sm text-muted-foreground">
+              {{ job['companyName'] }} is hiring for the position of {{
+              job['title'] }}.
+            </p>
+          </div>
+          <div class="flex flex-row items-start ml-auto space-x-2">
+            <button>
+              <a
+                class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3"
+                href="{{ job['redirectLink'] }}"
+                target="_blank"
+                >Apply Now</a
+              >
+            </button>
+          </div>
+        </div>
+        <div class="p-6">
+          <div class="grid gap-4">
+            <dl class="grid gap-2 text-sm md:grid-cols-2">
+              <div class="font-medium">Company Name</div>
+              <div>{{ job['companyName'] }}</div>
+              <div class="font-medium">Location</div>
+              <div>{{ job['location'] }}</div>
+              <div class="font-medium">Type</div>
+              <div>{{ job['type'] }}</div>
+              <div class="font-medium">Salary</div>
+              <div>{{ job['salary'] }}</div>
+              <div class="font-medium">Required Experience</div>
+              <div>{{ job['requiredExperience'] }}</div>
+              <div class="font-medium">Skills</div>
+              <div>{{ job['skills'] }}</div>
+              <div class="font-medium">Created At</div>
+              <div>{{ job['createdAt'] }}</div>
+              <div class="font-medium">Updated At</div>
+              <div>{{ job['updatedAt'] }}</div>
+            </dl>
+            <div class="grid gap-2 text-sm">
+              <div class="font-medium">About Job</div>
+              <div>Count: {{ job['count'] }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </body>
+</html>
