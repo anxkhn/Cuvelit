@@ -97,11 +97,11 @@ The API response follows a consistent JSON format:
 
 ## Getting Started
 
-You can get started with this project either by using the deployed version available at [Cuvelit.dev.pages](https://Cuvelit.dev.pages) or deploying your own version.
+You can get started with this project either by using the deployed version available at [cuvelit.pages.dev](https://cuvelit.pages.dev) or deploying your own version.
 
 ### Deployed Version (Recommmeneded)
 
-To use the deployed version from [Cuvelit.dev.pages](https://Cuvelit.dev.pages), simply visit the website and start exploring job listings.
+To use the deployed version from [cuvelit.pages.dev](https://cuvelit.pages.dev), simply visit the website and start exploring job listings.
 
 ### Getting Started Locally
 
