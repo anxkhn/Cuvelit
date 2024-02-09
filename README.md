@@ -1,14 +1,14 @@
 # Cuvelit
 
-![Cuvelit](https://raw.githubusercontent.com/anxkhn/Cuvelit/main/cuvelit.jpg)
+![cuvelit](https://github.com/anxkhn/Cuvelit/assets/83116240/1bd44195-67a3-4e44-8b74-bdd93de61a26)
 
 ## Introduction
 
-Cuvelit, derived from "Cuvette" and "lit", symbolizes a lit af way to hunt to job opportunities. This project provides a simplified wrapper for accessing job listings from the Cuvette platform without the need for user authentication. The motivation behind this project is to provide free access to job information without subjecting users to intrusive dark patterns, affiliate links, or unnecessary login requirements imposed by the Cuvette website.
+Cuvelit, derived from "Cuvette" and "lit", symbolizes a lit af way to hunt for job opportunities. This project provides a simplified wrapper for accessing job listings from the Cuvette platform without user authentication. The motivation behind this project is to provide free access to job information without subjecting users to intrusive dark patterns, affiliate links, or unnecessary login requirements imposed by the Cuvette website.
 
 ### Why Cuvelit?
 
-Cuvette is a platform notorious for employing dark patterns and barriers to accessing job listings. Users are forced to create accounts, endure tracking, and navigate through affiliated links just to view job opportunities. It makes sense if Cuvette hosts their own opportunities, but it frequently redirects users to external company career sites, adding unnecessary complexity to the job search process and gatekeeping links for cold sign-ups. Cuvelit challenges these practices by offering a straightforward alternative for users to explore job opportunities.
+Cuvette is a platform notorious for employing dark patterns and barriers to accessing job listings. Users are forced to create accounts, endure tracking, and navigate through affiliated links to view job opportunities. It makes sense if Cuvette hosts their opportunities. Still, it frequently redirects users to external company career sites, adding unnecessary complexity to the job search process and gatekeeping links for cold sign-ups. Cuvelit challenges these practices by offering a straightforward alternative for users to explore job opportunities.
 
 ## Features
 
