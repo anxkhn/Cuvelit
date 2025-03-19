@@ -4,80 +4,120 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cuvelit</title>
-    <link href="main.css" rel="stylesheet" />
-  </head>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">  </head>
   <body>
     <div id="jobs-container" class="container mx-auto px-4"></div>
+    <div id="pagination-container" class="container mx-auto px-4 py-4 text-center">
+      </div>
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        fetch("https://api.cuvette.tech/api/v1/externaljobs")
-          .then((response) => response.json())
-          .then((data) => {
-            const jobsContainer = document.getElementById("jobs-container");
-            data.data.forEach((job) => {
-              const createdAt = new Date(job.createdAt);
-              const updatedAt = new Date(job.updatedAt);
-              const now = new Date();
-              const timeSinceCreation = getTimeSince(createdAt, now);
-              const timeSinceUpdate = getTimeSince(updatedAt, now);
-              const jobElement = `
-                        
-			<div class="rounded-lg border bg-card text-card-foreground shadow-sm w-full md:max-w-4xl mx-auto mb-4">
-				<div class="space-y-4 md:space-y-0 md:flex md:items-center md:justify-between md:px-6 py-6">
-					<div class="flex items-center">
-                        <img alt="Company Logo" class="max-w-10 max-h-10 md:max-w-12 md:max-h-12 mr-3" src="${job.imageUrl}">
-                        <h3 class="text-2xl font-semibold leading-none tracking-tight">${job.title}</h3>
-						</div>
-						<div class="flex flex-col items-center justify-center">
-							<a class="inline-block px-6 py-3 text-sm font-medium text-white bg-blue-500 rounded-md" href="${job.redirectLink}" target="_blank">Apply Now</a>
-							<div class="mt-4 text-sm font-medium"> Applied: ${job.count}</div>
-						</div>
-					</div>
-					<div class="p-6">
-						<dl class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-							<div class="font-medium">Company Name</div>
-							<div>${job.companyName}</div>
-							<div class="font-medium">Location</div>
-							<div>${job.location}</div>
-							<div class="font-medium">Type</div>
-							<div>${job.type}</div>
-							<div class="font-medium">Salary</div>
-							<div>${job.salary}</div>
-							<div class="font-medium">Required Experience</div>
-							<div>${job.requiredExperience}</div>
-							<div class="font-medium">Skills</div>
-							<div>${job.skills}</div>
-							<div class="font-medium">Created At</div>
-							<div>${job.createdAt} (${timeSinceCreation})</div>
-							<div class="font-medium">Updated At</div>
-							<div>${job.updatedAt} (${timeSinceUpdate})</div>
-						</dl>
-					</div>
-				</div>
-                    `;
-              jobsContainer.insertAdjacentHTML("beforeend", jobElement);
-            });
-          })
-          .catch((error) => console.error("Error fetching jobs:", error));
+      let allJobs = [];
+      let currentPage = 1;
+      const jobsPerPage = 10; 
+
+      document.addEventListener("DOMContentLoaded", () => {
+        fetchAllJobs();
       });
 
-      function getTimeSince(previousDate, now) {
-        const timeDifference = now - previousDate;
-        const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-        const hours = Math.floor(
-          (timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-        );
-        const minutes = Math.floor(
-          (timeDifference % (1000 * 60 * 60)) / (1000 * 60)
-        );
-        if (days > 0) {
-          return `${days} days ago`;
-        } else if (hours > 0) {
-          return `${hours} hours ago`;
-        } else {
-          return `${minutes} minutes ago`;
+      async function fetchAllJobs() {
+        let page = 1;
+        let hasMoreData = true;
+
+        while (hasMoreData) {
+          try {
+            const response = await fetch(
+              `https://api.cuvette.tech/api/v1/externaljobs?search=&pageNumber=${page}`
+            );
+            const data = await response.json();
+
+            if (data.success && data.count > 0) {
+              allJobs = allJobs.concat(data.data);
+              page++;
+            } else {
+              hasMoreData = false;
+            }
+          } catch (error) {
+            console.error("Error fetching jobs:", error);
+            hasMoreData = false; 
+          }
         }
+
+        displayJobs(currentPage);
+        renderPagination();
       }
+
+
+        function displayJobs(page) {
+            const jobsContainer = document.getElementById("jobs-container");
+            jobsContainer.innerHTML = ""; 
+            const startIndex = (page - 1) * jobsPerPage;
+            const endIndex = startIndex + jobsPerPage;
+            const jobsToDisplay = allJobs.slice(startIndex, endIndex);
+
+            jobsToDisplay.forEach((job) => {
+            const jobElement = `
+                <div class="rounded-lg border bg-card text-card-foreground shadow-sm w-full md:max-w-4xl mx-auto mb-4">
+                    <div class="space-y-4 md:space-y-0 md:flex md:items-center md:justify-between md:px-6 py-6">
+                        <div class="flex items-center">
+                            <img alt="Company Logo" class="max-w-10 max-h-10 md:max-w-12 md:max-h-12 mr-3" src="${job.imageUrl}">
+                            <h3 class="text-2xl font-semibold leading-none tracking-tight">${job.title}</h3>
+                        </div>
+                        <div class="flex flex-col items-center justify-center">
+                            <a class="inline-block px-6 py-3 text-sm font-medium text-white bg-blue-500 rounded-md" href="${job.redirectLink}" target="_blank">Apply Now</a>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <dl class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                            <div class="font-medium">Company Name</div>
+                            <div>${job.companyName}</div>
+                            <div class="font-medium">Location</div>
+                            <div>${job.location}</div>
+                            <div class="font-medium">Type</div>
+                            <div>${job.type}</div>
+                            <div class="font-medium">Salary</div>
+                            <div>${job.salary}</div>
+                            <div class="font-medium">Required Experience</div>
+                            <div>${job.requiredExperience}</div>
+                            <div class="font-medium">Skills</div>
+                            <div>${job.skills}</div>
+                        </dl>
+                    </div>
+                </div>
+            `;
+            jobsContainer.insertAdjacentHTML("beforeend", jobElement);
+            });
+        }
+        function renderPagination() {
+            const paginationContainer = document.getElementById("pagination-container");
+            paginationContainer.innerHTML = "";
+            const totalPages = Math.ceil(allJobs.length / jobsPerPage);
+
+             if (totalPages <= 1) {
+                return; 
+            }
+
+            for (let i = 1; i <= totalPages; i++) {
+                const pageLink = document.createElement("a");
+                pageLink.href = "#";
+                pageLink.textContent = i;
+                pageLink.classList.add("px-3", "py-1", "mx-1", "border", "rounded");
+
+                if (i === currentPage) {
+                    pageLink.classList.add("bg-blue-500", "text-white");
+                 } else {
+                    pageLink.classList.add("hover:bg-blue-100"); 
+                }
+
+                pageLink.addEventListener("click", (event) => {
+                    event.preventDefault();
+                    currentPage = i;
+                    displayJobs(currentPage);
+                    renderPagination();
+                });
+
+                paginationContainer.appendChild(pageLink);
+            }
+        }
+
     </script>
   </body>
 </html>
